@@ -1,0 +1,64 @@
+# DDL - Create
+create database store;
+use store;
+Create table countries(
+code int(10) primary key ,
+name varchar(20) unique,
+continent_name varchar(20) not null);
+# DQL - Select
+select * from countries;
+select * from users;
+select * from orders;
+select * from order_products;
+select * from products;
+use store;
+Create table users(
+id int(10) primary key,
+full_name varchar(20),
+email varchar(20) unique,
+gender char(1) check (gender='m' or gender='f'),
+date_of_birth varchar (15),
+created_at datetime,
+country_code int,
+ foreign key (country_code) references countries(code));
+ use store;
+ Create table orders(
+ id int(10) primary key,
+ status varchar(6) check (status='start' or status='finish'),
+ created_at datetime,
+ user_id int,
+ foreign key (user_id) references users (id));
+ use store;
+ Create table order_products(
+ order_id int,
+ product_id int,
+ quantity int default 0,
+ primary key (order_id, product_id),
+ foreign key (order_id) references orders(id),
+ foreign key (product_id) references products(id));
+ use store;
+ Create table products(
+ id int primary key,
+ name varchar(10) not null,
+ price int default 0,
+ status varchar(10) check (status='valid' or status='expired'),
+ created_at datetime);
+ # DDL - Alter
+ alter table countries add column capital_city varchar(10);
+ alter table users add column age integer(10);
+ alter table orders add column name_orders varchar(20);
+alter table  products  add column code int(10);
+alter table order_products add column product_name varchar(10);
+# DML - Insert
+insert into countries values ('1','saudi Arabia','Asia', 'Riyadh');
+insert into users values ('1','jameela','j@ja.com','m', '10-3-1997', '10;00', '25');
+insert into orders values ('1','start','10-3-1997', '5', 'name_order');
+insert into products values ('1','product','10', 'valid' ,'10-3-1997','66');
+insert into order_products values ('1','8','9');
+
+
+# DDL - Drop
+alter table order_products drop column product_name ;
+delete from products where id= 1 ;
+# DML - Update
+update countries set capital_city ='Taif' where code='1';
